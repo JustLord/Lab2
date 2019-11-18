@@ -32,15 +32,11 @@ class NewsRepositoryImpl(private val api: PostsApi, private val db: NewsDao) : N
                 if (forceUpdate || dataModels.isEmpty()) {
                     return@map api.getNewsList()
                         .map { responses ->
-                            db.insert(responses.map { response ->
-                                newsDataModelFromNewsResponse(
-                                    response
-                                )
-                            })
+                            db.insert(responses.map { response ->newsDataModelFromNewsResponse(response)})
                             return@map responses.map { response -> newsFromNewsResponse(response) }
                         }
                 } else {
-                    return@map dataModels.map { dataModel -> newsFromNewsDataModel((dataModel)) }
+                    return@map dataModels.map { dataModel -> newsFromNewsDataModel(dataModel) }
                 }
             }
 
