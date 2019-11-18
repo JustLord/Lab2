@@ -29,7 +29,7 @@ class PostsApi {
         )
     }
 
-    fun getPreviewList(offset: Int = 0): Observable<List<NewsResponse>> {
+    fun getNewsList(offset: Int = 0): Observable<List<NewsResponse>> {
         return connect("https://kg-portal.ru/news/anime/$offset/")
             .map { it.select(".news_box") }
             .map { it.map { element -> makePreview(element) } }

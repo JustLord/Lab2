@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.lab2.databinding.PostItemLayoutBinding
-import com.example.lab2.domain.entities.Post
+import com.example.lab2.domain.entities.News
 
-class PostsAdapter(private var items: List<Post>? = null) :
+class PostsAdapter(private var items: List<News>? = null) :
     RecyclerView.Adapter<PostsAdapter.ViewHolder>() {
     private lateinit var context: Context
 
@@ -29,14 +29,14 @@ class PostsAdapter(private var items: List<Post>? = null) :
         return ViewHolder(dataBinding)
     }
 
-    fun setValue(items: List<Post>?) {
+    fun setValue(items: List<News>?) {
         this.items = items
         notifyDataSetChanged()
     }
 
     inner class ViewHolder(private var dataBinding: PostItemLayoutBinding) :
         RecyclerView.ViewHolder(dataBinding.root) {
-        fun bind(item: Post) {
+        fun bind(item: News) {
             dataBinding.subtitle.text = item.subtitle
             dataBinding.title.text = item.title
             Glide.with(context).load(item.imgUrl).centerCrop().into(dataBinding.image)

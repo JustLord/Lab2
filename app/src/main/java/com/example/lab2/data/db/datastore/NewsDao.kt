@@ -1,19 +1,29 @@
 package com.example.lab2.data.db.datastore
 
 import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.Query
+import com.example.lab2.data.db.entities.NewsDataModel
+import io.reactivex.Completable
+import io.reactivex.Flowable
 
 @Dao
 interface NewsDao {
-    @Query("SELECT * FROM Contact")
-    fun getAll(): Flowable<List<ContactDataModel>>
+    @Query("SELECT * FROM News")
+    fun getAll(): Flowable<List<NewsDataModel>>
 
-    @Query("SELECT * FROM Contact WHERE id = :id LIMIT 1")
-    fun get(id: Int) : Flowable<ContactDataModel>
+    @Query("SELECT * FROM News WHERE id = :id LIMIT 1")
+    fun get(id: Int): Flowable<NewsDataModel>
 
     @Insert(onConflict = REPLACE)
-    fun insert(contact: ContactDataModel) : Completable
+    fun insert(newsList: List<NewsDataModel>): Completable
+
+    @Insert(onConflict = REPLACE)
+    fun insert(news: NewsDataModel): Completable
 
     @Delete
-    fun delete(contact: ContactDataModel) : Completable
+    fun delete(news: NewsDataModel): Completable
 }
 

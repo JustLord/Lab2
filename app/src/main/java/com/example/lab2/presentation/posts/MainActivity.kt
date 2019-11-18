@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lab2.R
-import com.example.lab2.data.repositories.PostRepositoryImpl
+import com.example.lab2.data.repositories.NewsRepositoryImpl
 import com.example.lab2.databinding.ActivityMainBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun load() {
         setProgress()
-        val disposable = PostRepositoryImpl().getAll()
+        val disposable = NewsRepositoryImpl().getAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { posts ->
