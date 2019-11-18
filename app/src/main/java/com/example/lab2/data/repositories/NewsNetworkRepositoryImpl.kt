@@ -1,17 +1,13 @@
-package com.example.lab2.data.network.api
+package com.example.lab2.data.repositories
 
-import com.example.lab2.data.network.entities.NewsTextResponse
+import com.example.lab2.data.network.api.NewsApi
 import com.example.lab2.data.network.entities.NewsResponse
-import io.reactivex.Observable
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
+import com.example.lab2.domain.repositories.NewsNetworkRepository
+import io.reactivex.Single
 import org.jsoup.nodes.Element
 import java.util.regex.Pattern
 
-class PostsApi {
-    private fun connect(url: String): Observable<Document> {
-        return Observable.fromCallable { Jsoup.connect(url).get() }
-    }
+class NewsNetworkRepositoryImpl(private val api: NewsApi) : NewsNetworkRepository {
 
     private fun getInt(str: String): Int {
         val p = Pattern.compile("-?\\d+")
@@ -20,7 +16,7 @@ class PostsApi {
         return mather.group().toInt()
     }
 
-    private fun makePreview(element: Element): NewsResponse {
+    private fun makeNews(element: Element): NewsResponse {
         return NewsResponse(
             getInt(element.select("input").first().attr("value")),
             element.select("h2.news_title").text(),
@@ -29,17 +25,18 @@ class PostsApi {
         )
     }
 
-    fun getNewsList(offset: Int = 0): Observable<List<NewsResponse>> {
-        return connect("https://kg-portal.ru/news/anime/$offset/")
+    override fun loadNews(): Single<List<NewsResponse>> {
+        return api.getNews()
             .map { it.select(".news_box") }
-            .map { it.map { element -> makePreview(element) } }
+            .map { it.map { element -> makeNews(element) } }
     }
 
-    fun getNewsText(id: Int): Observable<NewsTextResponse> {
-        return connect("https://kg-portal.ru/comments/$id")
+    override fun loadNewsText(id: Int): Single<String> {
+        return api.getNewsText(id)
             .map { it.select(".news_text").first() }
             .map { it.select("p") }
             .map { it.map { element -> element.text() } }
-            .map { NewsTextResponse(id, it.joinToString("\n")) }
+            .map { it.joinToString("\n") }
     }
+
 }
