@@ -9,6 +9,7 @@ import com.example.lab2.domain.repositories.NewsDatabaseRepository
 import com.example.lab2.domain.repositories.NewsNetworkRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 import io.reactivex.rxkotlin.zipWith
 
 class NewsInteractorImpl(
@@ -28,7 +29,7 @@ class NewsInteractorImpl(
         return db.getAll().map { it.map { newsDataModel -> newsFromNewsDataModel(newsDataModel) } }
     }
 
-    override fun get(id: Int): Flowable<FullNews> {
+    override fun get(id: Int): Maybe<FullNews> {
         val newsObservable = db.get(id)
         val newsTextObservable = db.getText(id)
 

@@ -8,6 +8,7 @@ import androidx.room.Query
 import com.example.lab2.data.db.entities.NewsDataModel
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 
 @Dao
 interface NewsDao {
@@ -15,7 +16,7 @@ interface NewsDao {
     fun getAll(): Flowable<List<NewsDataModel>>
 
     @Query("SELECT * FROM News WHERE id = :id LIMIT 1")
-    fun get(id: Int): Flowable<NewsDataModel>
+    fun get(id: Int): Maybe<NewsDataModel>
 
     @Insert(onConflict = REPLACE)
     fun insert(newsList: List<NewsDataModel>): Completable

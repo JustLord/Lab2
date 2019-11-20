@@ -7,6 +7,7 @@ import com.example.lab2.data.db.entities.NewsTextDataModel
 import com.example.lab2.domain.repositories.NewsDatabaseRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 
 class NewsDatabaseRepositoryImpl(
     private val newsDao: NewsDao,
@@ -21,11 +22,11 @@ class NewsDatabaseRepositoryImpl(
         return newsDao.insert(newsList)
     }
 
-    override fun getText(id: Int): Flowable<NewsTextDataModel> {
+    override fun getText(id: Int): Maybe<NewsTextDataModel> {
         return newsTextDao.get(id)
     }
 
-    override fun get(id: Int): Flowable<NewsDataModel> {
+    override fun get(id: Int): Maybe<NewsDataModel> {
         return newsDao.get(id)
     }
 

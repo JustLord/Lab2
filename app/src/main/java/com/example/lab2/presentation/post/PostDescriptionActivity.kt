@@ -18,6 +18,7 @@ import com.example.lab2.domain.interactors.NewsInteractorImpl
 import com.sfsas.lab1.presentation.Lab2Application
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_post_description.*
 
@@ -46,7 +47,7 @@ class PostDescriptionActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-
+                load()
             }
 
         compositeDisposable.add(disposable)
@@ -56,15 +57,19 @@ class PostDescriptionActivity : AppCompatActivity() {
         val disposable = interactor.get(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                title = it.title
+            .doOnSuccess{
+                supportActionBar?.title = it.title
                 binding.text.text.text = it.text
-                Glide.with(applicationContext).load(it.imgUrl).into(image)
 
-                if(it.title.isEmpty())
-                    updateText()
-
+                Glide.with(applicationContext)
+                    .load(it.imgUrl)
+                    .centerCrop()
+                    .into(image)
             }
+            .doOnComplete{
+                updateText()
+            }
+            .subscribe()
 
 
         compositeDisposable.add(disposable)
