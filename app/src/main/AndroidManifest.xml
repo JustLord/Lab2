@@ -18,7 +18,7 @@
             android:name=".presentation.post.PostDescriptionActivity"
             android:label="@string/title_activity_post_description"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".presentation.posts.MainActivity">
+        <activity android:name=".presentation.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

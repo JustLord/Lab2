@@ -1,4 +1,4 @@
-package com.example.lab2.presentation.posts
+package com.example.lab2.presentation.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -44,6 +44,9 @@ class MainActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { posts ->
                 adapter.setValue(posts)
+
+                if(posts.isEmpty())
+                    refresh()
             }
 
         compositeDisposable.add(disposable)

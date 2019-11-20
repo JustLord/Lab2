@@ -1,4 +1,4 @@
-package com.example.lab2.presentation.posts
+package com.example.lab2.presentation.main
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.lab2.databinding.PostItemLayoutBinding
 import com.example.lab2.domain.entities.News
+import com.example.lab2.presentation.post.PostDescriptionActivity
 
 class PostsAdapter(private var items: List<News>? = null) :
     RecyclerView.Adapter<PostsAdapter.ViewHolder>() {
@@ -39,6 +40,12 @@ class PostsAdapter(private var items: List<News>? = null) :
         fun bind(item: News) {
             dataBinding.subtitle.text = item.subtitle
             dataBinding.title.text = item.title
+            dataBinding.card.setOnClickListener {
+                PostDescriptionActivity.startActivity(
+                    context,
+                    item.id
+                )
+            }
             Glide.with(context).load(item.imgUrl).centerCrop().into(dataBinding.image)
         }
     }
